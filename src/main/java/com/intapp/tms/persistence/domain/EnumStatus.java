@@ -8,7 +8,9 @@ public enum EnumStatus {
     /**
      * Active enum status.
      */
-    Active, /**
+    Active,
+
+    /**
      * Inactive enum status.
      */
     Inactive
