@@ -1,4 +1,4 @@
-package com.intapp.tms.exception;
+package com.intapp.tms.service.exception;
 
 /**
  * Spring's database support defines this exception.

@@ -31,10 +31,6 @@ public class TenantPersistenceServiceImpl implements TenantPersistenceService {
     @Autowired
     private DtoConverter dtoConverter;
 
-    @Autowired
-    @Qualifier("tenantId9CharsGenerator")
-    private TenantId9CharsGenerator tenantIdGenerator;
-
     @Override
     public List<Tenant> findAll() {
         return repository.findAll();
@@ -51,36 +47,13 @@ public class TenantPersistenceServiceImpl implements TenantPersistenceService {
     }
 
     @Override
-    public Tenant create(Tenant tenant) {
-        tenant.setId(tenantIdGenerator.generateId());
-        tenant.setCreatedBy(currentUser);
-        tenant.setCreatedAt(new Date());
-        tenant.setProducts(Maps.newConcurrentMap());
-        tenant.setEnvironments(Maps.newConcurrentMap());
-        tenant.setLocale(Locale.getDefault());
-        tenant.setDefaultLocale(Locale.US);
-        tenant.setTimeZone(TimeZone.getDefault());
+    public Tenant save(Tenant tenant) {
         return repository.save(tenant);
-    }
-
-    @Override
-    public Tenant update(Tenant tenant) {
-        tenant.setUpdatedBy(currentUser);
-        tenant.setUpdatedAt(new Date());
-        return repository.save(tenant);
-    }
-
-    @Override
-    public Tenant updateTenantName(String tenantId, String tenantName) {
-        Tenant tenant = findById(tenantId);
-        tenant.setName(tenantName);
-        return update(tenant);
     }
 
     @Override
     public void delete(String tenantId) {
-        Tenant tenant = findById(tenantId);
-        repository.delete(tenant.getId());
+        repository.delete(tenantId);
     }
 
     @Override

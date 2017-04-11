@@ -161,7 +161,7 @@ public abstract class TestRestController {
 
         tenantMap = Maps.newConcurrentMap();
         for (String tenantName : TENANT_NAMES_LIST) {
-            Tenant tenant = tenantService.create(new Tenant(tenantName));
+            Tenant tenant = tenantService.save(new Tenant(tenantName));
 
             for (String productName : PRODUCT_NAMES_LIST) {
                 ProductDTO productDTO = new ProductDTO(productName);

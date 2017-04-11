@@ -2,11 +2,15 @@ package com.intapp.tms.web.restcontroller;
 
 import com.intapp.tms.service.EnvironmentService;
 import com.intapp.tms.service.dto.EnvironmentDTO;
+import com.intapp.tms.service.validator.EnvironmentValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,11 +28,20 @@ public class EnvironmentRestController {
     private final EnvironmentService environmentService;
 
     /**
+     * Init binder.
+     *
+     * @param binder the binder
+     */
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.addValidators(new EnvironmentValidator());
+    }
+
+    /**
      * Instantiates a new Environment rest controller.
      *
      * @param environmentService the environment service
      */
-    @Autowired
     protected EnvironmentRestController(EnvironmentService environmentService) {
         this.environmentService = environmentService;
     }
@@ -40,7 +53,7 @@ public class EnvironmentRestController {
      * @return the response entity
      */
     @RequestMapping(method = RequestMethod.GET, path = "/")
-    public ResponseEntity<List<EnvironmentDTO>> findAllEnvironments(@PathVariable String tenantId) {
+    public ResponseEntity<?> findAllEnvironments(@PathVariable String tenantId) {
         return ResponseEntity.ok(environmentService.findAll(tenantId));
     }
 
@@ -52,7 +65,7 @@ public class EnvironmentRestController {
      * @return the response entity
      */
     @RequestMapping(method = RequestMethod.GET, path = "/{environmentName}")
-    public ResponseEntity<EnvironmentDTO> findEnvironment(@PathVariable String tenantId, @PathVariable String environmentName) {
+    public ResponseEntity<?> findEnvironment(@PathVariable String tenantId, @PathVariable String environmentName) {
         return ResponseEntity.ok(environmentService.findByName(tenantId, environmentName));
     }
 
@@ -66,7 +79,7 @@ public class EnvironmentRestController {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> createEnvironment(
             @PathVariable String tenantId,
-            @RequestBody EnvironmentDTO environment) {
+            @Valid @RequestBody EnvironmentDTO environment) {
 
         EnvironmentDTO result = environmentService.createEnvironment(tenantId, environment);
         URI location = ServletUriComponentsBuilder
@@ -74,7 +87,7 @@ public class EnvironmentRestController {
                 .buildAndExpand(result.getName())
                 .toUri();
 
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.ok(location);
     }
 
     /**
@@ -89,7 +102,7 @@ public class EnvironmentRestController {
     public ResponseEntity<?> updateEnvironment(
             @PathVariable String tenantId,
             @PathVariable String environmentName,
-            @RequestBody EnvironmentDTO environment) {
+            @Valid @RequestBody EnvironmentDTO environment) {
 
         environmentService.updateEnvironment(tenantId, environmentName, environment);
 
@@ -118,7 +131,7 @@ public class EnvironmentRestController {
      * @return the response entity
      */
     @RequestMapping(method = RequestMethod.GET, path = "/{environmentName}/settings")
-    public ResponseEntity<Map<String, Object>> findAllSettings(@PathVariable String tenantId, @PathVariable String environmentName) {
+    public ResponseEntity<?> findAllSettings(@PathVariable String tenantId, @PathVariable String environmentName) {
         return ResponseEntity.ok(environmentService.findSettings(tenantId, environmentName));
     }
 
@@ -135,6 +148,8 @@ public class EnvironmentRestController {
         return ResponseEntity.ok(environmentService.findSetting(tenantId, environmentName, key));
     }
 
+//    TODO: add validator for settings
+
     /**
      * Update settings response entity.
      *
@@ -149,6 +164,7 @@ public class EnvironmentRestController {
 
         return ResponseEntity.ok().build();
     }
+// TODO: add validator for value
 
     /**
      * Update setting response entity.

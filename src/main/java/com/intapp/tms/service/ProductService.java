@@ -1,7 +1,7 @@
 package com.intapp.tms.service;
 
-import com.intapp.tms.exception.ProductDoesExistException;
-import com.intapp.tms.exception.ProductNotFoundException;
+import com.intapp.tms.service.exception.ProductDoesExistException;
+import com.intapp.tms.service.exception.ProductNotFoundException;
 import com.intapp.tms.persistence.TenantPersistenceService;
 import com.intapp.tms.persistence.domain.Product;
 import com.intapp.tms.persistence.domain.Tenant;
@@ -96,7 +96,7 @@ public class ProductService {
 
         productsMap.put(product.getName(), product);
         tenant.setProducts(productsMap);
-        product = tenantPersistenceService.update(tenant).getProducts().get(product.getName());
+        product = tenantPersistenceService.save(tenant).getProducts().get(product.getName());
 
         return dtoConverter.dtoConvertor(product,ProductDTO.class);
     }
@@ -122,7 +122,7 @@ public class ProductService {
 
         productsMap.put(productName, product);
         tenant.setProducts(productsMap);
-        product = tenantPersistenceService.update(tenant).getProducts().get(productName);
+        product = tenantPersistenceService.save(tenant).getProducts().get(productName);
 
         return dtoConverter.dtoConvertor(product,ProductDTO.class);
     }
@@ -145,7 +145,7 @@ public class ProductService {
 
         products.remove(productName);
 
-        tenantPersistenceService.update(tenant);
+        tenantPersistenceService.save(tenant);
     }
 
     /**

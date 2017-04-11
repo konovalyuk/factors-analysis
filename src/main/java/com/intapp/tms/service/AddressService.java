@@ -62,7 +62,7 @@ public class AddressService {
         Address address = dtoConverter.dtoConvertor(addressDTO, Address.class);
         Tenant tenant = tenantPersistenceService.findById(tenantId);
         tenant.setAddress(address);
-        address = tenantPersistenceService.update(tenant).getAddress();
+        address = tenantPersistenceService.save(tenant).getAddress();
 
         return dtoConverter.dtoConvertor(address, AddressDTO.class);
     }

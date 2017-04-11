@@ -39,15 +39,7 @@ public interface TenantPersistenceService {
      * @param tenant the tenant
      * @return the tenant
      */
-    Tenant create(Tenant tenant);
-
-    /**
-     * Update tenant.
-     *
-     * @param tenant the tenant
-     * @return the tenant
-     */
-    Tenant update(Tenant tenant);
+    Tenant save(Tenant tenant);
 
     /**
      * Delete.
@@ -60,15 +52,6 @@ public interface TenantPersistenceService {
      * Delete all.
      */
     void deleteAll();
-
-    /**
-     * Update tenant name tenant.
-     *
-     * @param tenantId   the tenant id
-     * @param tenantName the tenant name
-     * @return the tenant
-     */
-    Tenant updateTenantName(String tenantId, String tenantName);
 
 }
 

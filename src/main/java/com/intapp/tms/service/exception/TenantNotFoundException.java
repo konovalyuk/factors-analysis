@@ -1,4 +1,4 @@
-package com.intapp.tms.exception;
+package com.intapp.tms.service.exception;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ public class TenantNotFoundException extends RuntimeException {
      * @param tenantId the tenant id
      */
     public TenantNotFoundException(String tenantId) {
-        super("Could not find the tenant.");
+        super("No such Tenant");
         this.tenantId = tenantId;
     }
 
@@ -30,7 +30,7 @@ public class TenantNotFoundException extends RuntimeException {
      * @param throwable the throwable
      */
     public TenantNotFoundException(String tenantId, Throwable throwable) {
-        super("Could not find the tenant .", throwable);
+        super("No such Tenant", throwable);
         this.tenantId = tenantId;
     }
 

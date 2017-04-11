@@ -29,12 +29,10 @@ import java.util.TimeZone;
 public class TenantDTOGet implements Serializable{
 
     @NotNull
-    @Size(min=2, max=9)
+    @Size(max=9)
     @ApiModelProperty(value = "Tenant id", required = true)
     private String id;
 
-    @NotNull
-    @Size(min=2, max=30)
     @ApiModelProperty(value = "Tenant Name", required = true)
     private String name;
 

@@ -1,7 +1,7 @@
 package com.intapp.tms.service;
 
-import com.intapp.tms.exception.EnvironmentDoesExistException;
-import com.intapp.tms.exception.EnvironmentNotFoundException;
+import com.intapp.tms.service.exception.EnvironmentDoesExistException;
+import com.intapp.tms.service.exception.EnvironmentNotFoundException;
 import com.intapp.tms.persistence.TenantPersistenceService;
 import com.intapp.tms.persistence.domain.EnumStatus;
 import com.intapp.tms.persistence.domain.Environment;
@@ -98,7 +98,7 @@ public class EnvironmentService {
 
         environmentMap.put(environment.getName(), environment);
         tenant.setEnvironments(environmentMap);
-        environment = tenantPersistenceService.update(tenant).getEnvironments().get(environment.getName());
+        environment = tenantPersistenceService.save(tenant).getEnvironments().get(environment.getName());
 
         return dtoConverter.dtoConvertor(environment,EnvironmentDTO.class);
     }
@@ -124,7 +124,7 @@ public class EnvironmentService {
 
         environmentMap.put(environmentName, environment);
         tenant.setEnvironments(environmentMap);
-        environment = tenantPersistenceService.update(tenant).getEnvironments().get(environmentName);
+        environment = tenantPersistenceService.save(tenant).getEnvironments().get(environmentName);
 
         return dtoConverter.dtoConvertor(environment,EnvironmentDTO.class);
     }
@@ -147,7 +147,7 @@ public class EnvironmentService {
 
         environmentMap.remove(environmentName);
 
-        tenantPersistenceService.update(tenant);
+        tenantPersistenceService.save(tenant);
     }
 
     /**
@@ -255,7 +255,7 @@ public class EnvironmentService {
 
         environmentMap.put(environmentName, environment);
         tenant.setEnvironments(environmentMap);
-        tenantPersistenceService.update(tenant);
+        tenantPersistenceService.save(tenant);
     }
 
     /**
@@ -272,6 +272,6 @@ public class EnvironmentService {
 
         environmentMap.put(environmentName, environment);
         tenant.setEnvironments(environmentMap);
-        tenantPersistenceService.update(tenant);
+        tenantPersistenceService.save(tenant);
     }
 }

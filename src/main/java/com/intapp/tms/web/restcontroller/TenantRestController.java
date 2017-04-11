@@ -7,12 +7,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The type Tenant rest controller.
@@ -20,7 +26,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/${app.current.version}/tenants")
 @ComponentScan(basePackages = "com.intapp.tms")
-public class TenantRestController{
+public class TenantRestController {
 
     private static Logger logger = LoggerFactory.getLogger(TenantRestController.class);
 
@@ -34,7 +40,6 @@ public class TenantRestController{
      *
      * @param tenantService the tenant service
      */
-    @Autowired
     protected TenantRestController(TenantService tenantService) {
         this.tenantService = tenantService;
     }
@@ -75,17 +80,23 @@ public class TenantRestController{
      * Create tenant response entity.
      *
      * @param tenant the tenant
+     * @param errors the errors
      * @return the response entity
      */
     @RequestMapping(method = RequestMethod.POST, path = "/")
-    public ResponseEntity<TenantDTOPost> createTenant(@RequestBody TenantDTOPost tenant) {
+    public ResponseEntity<?> createTenant(@Valid @RequestBody TenantDTOPost tenant, BindingResult errors) {
+        if (errors.hasErrors()) {
+            String msg = errorMessage(errors);
+            return ResponseEntity.badRequest().body(msg);
+        }
+
         TenantDTOPost result = tenantService.create(tenant);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{tenantId}")
                 .buildAndExpand(result.getId())
                 .toUri();
 
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.ok(location);
     }
 
     /**
@@ -93,14 +104,19 @@ public class TenantRestController{
      *
      * @param tenantId   the tenant id
      * @param tenantName the tenant name
+     * @param errors     the errors
      * @return the tenant dto
      */
     @RequestMapping(method = RequestMethod.POST, path = "/{tenantId}/updateName")
-    public TenantDTOPost updateTenantName(
+    public ResponseEntity<?> updateTenantName(
             @PathVariable String tenantId,
-            @RequestBody String tenantName) {
-
-        return tenantService.updateTenantName(tenantId, tenantName);
+            @Valid @RequestBody String tenantName, BindingResult errors) {
+        if (errors.hasErrors()) {
+            String msg = errorMessage(errors);
+            return ResponseEntity.badRequest().body(msg);
+        }
+        TenantDTOPost result = tenantService.updateTenantName(tenantId, tenantName);
+        return ResponseEntity.ok(result);
     }
 
     /**
@@ -111,10 +127,17 @@ public class TenantRestController{
      */
     @RequestMapping(method = RequestMethod.DELETE, path = "/{tenantId}")
     public ResponseEntity<?> removeTenant(@PathVariable String tenantId) {
-
         tenantService.delete(tenantId);
-
         return ResponseEntity.ok("TenantDTOPost has been removed.");
+    }
+
+    private String errorMessage(BindingResult errors) {
+        String msg = errors.getAllErrors()
+                .stream()
+                .map(x -> x.getDefaultMessage())
+                .collect(Collectors.joining(","));
+        logger.error(msg);
+        return msg;
     }
 
 }

@@ -1,4 +1,4 @@
-package com.intapp.tms.exception;
+package com.intapp.tms.service.exception;
 
 
 /**

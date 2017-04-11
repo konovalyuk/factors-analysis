@@ -2,11 +2,15 @@ package com.intapp.tms.web.restcontroller;
 
 import com.intapp.tms.service.ProductService;
 import com.intapp.tms.service.dto.ProductDTO;
+import com.intapp.tms.service.validator.EnvironmentValidator;
+import com.intapp.tms.service.validator.ProductValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
@@ -27,9 +31,19 @@ public class ProductRestController {
      *
      * @param productService the product service
      */
-    @Autowired
     public ProductRestController(ProductService productService) {
         this.productService = productService;
+    }
+
+
+    /**
+     * Init binder.
+     *
+     * @param binder the binder
+     */
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.addValidators(new ProductValidator());
     }
 
     /**
@@ -39,7 +53,7 @@ public class ProductRestController {
      * @return the response entity
      */
     @RequestMapping(method = RequestMethod.GET, path = "/")
-    public ResponseEntity<List<ProductDTO>> findAllProducts(@PathVariable(required = true) String tenantId) {
+    public ResponseEntity<?> findAllProducts(@PathVariable(required = true) String tenantId) {
         return ResponseEntity.ok(productService.findAll(tenantId));
     }
 
@@ -51,7 +65,7 @@ public class ProductRestController {
      * @return the response entity
      */
     @RequestMapping(method = RequestMethod.GET, path = "/{productName}")
-    public ResponseEntity<ProductDTO> findProduct(@PathVariable String tenantId, @PathVariable String productName) {
+    public ResponseEntity<?> findProduct(@PathVariable String tenantId, @PathVariable String productName) {
         return ResponseEntity.ok(productService.findByName(tenantId, productName));
     }
 
@@ -65,7 +79,7 @@ public class ProductRestController {
     @RequestMapping(method = RequestMethod.POST, path = "/")
     public ResponseEntity<?> createProduct(
             @PathVariable String tenantId,
-            @RequestBody ProductDTO product) {
+            @Valid @RequestBody ProductDTO product) {
 
         ProductDTO result = productService.createProduct(tenantId, product);
         URI location = ServletUriComponentsBuilder
@@ -88,7 +102,7 @@ public class ProductRestController {
     public ResponseEntity<?> updateProduct(
             @PathVariable String tenantId,
             @PathVariable String productName,
-            @RequestBody ProductDTO product) {
+            @Valid @RequestBody ProductDTO product) {
 
         productService.updateProduct(tenantId, productName, product);
 
@@ -134,6 +148,8 @@ public class ProductRestController {
         return ResponseEntity.ok(productService.findSetting(tenantId, productName, key));
     }
 
+//    TODO: add validator to settings
+
     /**
      * Update settings response entity.
      *
@@ -149,6 +165,8 @@ public class ProductRestController {
 
         return ResponseEntity.ok().build();
     }
+
+//    TODO: add validator to value
 
     /**
      * Update setting response entity.

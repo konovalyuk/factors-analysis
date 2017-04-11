@@ -1,16 +1,20 @@
 package com.intapp.tms.service;
 
+import com.google.common.collect.Maps;
 import com.intapp.tms.persistence.TenantPersistenceService;
 import com.intapp.tms.persistence.domain.Tenant;
 import com.intapp.tms.service.converter.DtoConverter;
 import com.intapp.tms.service.dto.TenantDTOPost;
 import com.intapp.tms.service.dto.TenantDTOGet;
+import com.intapp.tms.service.utils.TenantId9CharsGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 
 /**
@@ -20,6 +24,8 @@ import java.util.List;
 public class TenantService {
 
     private final TenantPersistenceService tenantPersistenceService;
+    private final TenantId9CharsGenerator tenantIdGenerator;
+
     private final DtoConverter dtoConverter;
     private final Validator validator;
 
@@ -32,12 +38,16 @@ public class TenantService {
      * @param tenantPersistenceService the tenant persistence service
      * @param dtoConverter             the dto converter
      * @param validator                the validator
+     * @param tenantIdGenerator        the tenant id generator
      */
-    @Autowired
-    public TenantService(TenantPersistenceService tenantPersistenceService, DtoConverter dtoConverter, Validator validator) {
+    public TenantService(TenantPersistenceService tenantPersistenceService,
+                         DtoConverter dtoConverter,
+                         Validator validator,
+                         TenantId9CharsGenerator tenantIdGenerator) {
         this.tenantPersistenceService = tenantPersistenceService;
         this.dtoConverter = dtoConverter;
         this.validator = validator;
+        this.tenantIdGenerator = tenantIdGenerator;
     }
 
     /**
@@ -82,7 +92,15 @@ public class TenantService {
      */
     public TenantDTOPost create(TenantDTOPost tenantDTOPost) {
         Tenant tenant = dtoConverter.dtoConvertor(tenantDTOPost, Tenant.class);
-        tenant = tenantPersistenceService.create(tenant);
+        tenant.setId(tenantIdGenerator.generateId());
+        tenant.setCreatedBy(currentUser);
+        tenant.setCreatedAt(new Date());
+        tenant.setProducts(Maps.newConcurrentMap());
+        tenant.setEnvironments(Maps.newConcurrentMap());
+        tenant.setLocale(Locale.getDefault());
+        tenant.setDefaultLocale(Locale.US);
+        tenant.setTimeZone(TimeZone.getDefault());
+        tenant = tenantPersistenceService.save(tenant);
         return dtoConverter.dtoConvertor(tenant, TenantDTOPost.class);
     }
 
@@ -94,9 +112,11 @@ public class TenantService {
      */
     public TenantDTOPost update(TenantDTOPost tenantDTOPost) {
         Tenant tenant = dtoConverter.dtoConvertor(tenantDTOPost, Tenant.class);
+        validator.validateTenant(tenant.getId());
+
         tenant.setUpdatedBy(currentUser);
         tenant.setUpdatedAt(new Date());
-        tenant = tenantPersistenceService.update(tenant);
+        tenant = tenantPersistenceService.save(tenant);
         return dtoConverter.dtoConvertor(tenant, TenantDTOPost.class);
     }
 
@@ -110,7 +130,9 @@ public class TenantService {
     public TenantDTOPost updateTenantName(String tenantId, String tenantName) {
         validator.validateTenant(tenantId);
 
-        Tenant tenant = tenantPersistenceService.updateTenantName(tenantId, tenantName);
+        Tenant tenant = tenantPersistenceService.findById(tenantId);
+        tenant.setName(tenantName);
+        tenant = tenantPersistenceService.save(tenant);
         return dtoConverter.dtoConvertor(tenant, TenantDTOPost.class);
     }
 
