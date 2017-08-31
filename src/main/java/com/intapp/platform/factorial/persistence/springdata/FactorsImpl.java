@@ -19,9 +19,6 @@ import java.util.List;
 @Transactional
 public class FactorsImpl implements IFactors {
 
-    @Value("${app.current.user}")
-    private String currentUser;
-
     @Autowired
     private FactorsRepository factorsRepository;
 
