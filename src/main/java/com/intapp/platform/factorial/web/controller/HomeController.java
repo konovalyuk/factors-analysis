@@ -1,7 +1,7 @@
 package com.intapp.platform.factorial.web.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * The type Home controller.
@@ -17,7 +17,7 @@ public class HomeController {
      *
      * @return the string
      */
-    @RequestMapping("/")
+    @GetMapping("/")
     public String home() {
         return VIEW_INDEX;
     }

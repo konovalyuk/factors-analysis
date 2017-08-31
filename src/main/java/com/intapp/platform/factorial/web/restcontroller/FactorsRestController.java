@@ -26,17 +26,17 @@ public class FactorsRestController {
         this.factorsService = factorsService;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public ResponseEntity<?> findAll() {
         return ResponseEntity.ok(factorsService.findAll());
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/{id}")
+    @GetMapping(path = "/{id}")
     public ResponseEntity<?> findById(@PathVariable String id) {
         return ResponseEntity.ok(factorsService.findById(id));
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/")
+    @PostMapping(path = "/")
     public ResponseEntity<?> createFactors(@Valid @RequestBody FactorsDTOPost factor, BindingResult errors) {
         if (errors.hasErrors()) {
             String msg = errorMessage(errors);
@@ -52,7 +52,7 @@ public class FactorsRestController {
         return ResponseEntity.ok(location);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, path = "/{id}/update")
+    @PutMapping(path = "/{id}/update")
     public ResponseEntity<?> updateFactor(
             @PathVariable String id,
             @Valid @RequestBody FactorsDTOPost factorsDTOPost, BindingResult errors) {
@@ -64,7 +64,7 @@ public class FactorsRestController {
         return ResponseEntity.ok(result);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, path = "/{id}")
+    @DeleteMapping(path = "/{id}")
     public ResponseEntity<?> removeFactors(@PathVariable String id) {
         factorsService.delete(id);
         return ResponseEntity.ok("FactorsDTOPost has been removed.");
