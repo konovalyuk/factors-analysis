@@ -1,18 +1,14 @@
 package com.intapp.platform.factorial.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.intapp.platform.factorial.persistence.IFactors;
 import com.intapp.platform.factorial.service.converter.DtoConverter;
-import com.intapp.platform.factorial.service.dto.FactorsDTOPost;
-import com.intapp.platform.factorial.service.dto.FactorsDTOGet;
+import com.intapp.platform.factorial.service.dto.WekaModelInputDTO;
+import com.intapp.platform.factorial.service.factorial.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import static com.intapp.platform.factorial.service.factorial.MatrixLogic.*;
 
 
 /**
@@ -23,79 +19,50 @@ public class FactorsService {
 
     private static Logger logger = LoggerFactory.getLogger(FactorsService.class);
 
-    private final IFactors iFactors;
     private final DtoConverter dtoConverter;
     private static ObjectMapper objectMapper = new ObjectMapper();
 
     /**
      * Instantiates a new Factors service.
      *
-     * @param iFactors           the Factors
      * @param dtoConverter       the dto converter
      */
-    public FactorsService(IFactors iFactors, DtoConverter dtoConverter) {
-        this.iFactors = iFactors;
+    public FactorsService(DtoConverter dtoConverter) {
         this.dtoConverter = dtoConverter;
     }
 
     /**
-     * Find all list.
-     *
-     * @return the list
-     */
-    public List<FactorsDTOGet> findAll() {
-        return null;
-    }
-
-    /**
-     * Find by id Factors dto.
-     *
-     * @param FactorsId the Factors id
-     * @return the Factors dto
-     */
-    public FactorsDTOGet findById(String FactorsId) {
-        return null;
-    }
-
-
-    /**
      * Create Factors dto.
      *
-     * @param FactorsDTOPost the Factors dto
      * @return the Factors dto
      */
-    public FactorsDTOGet create(FactorsDTOPost FactorsDTOPost) {
-        return null;
+    public Double evaluate(WekaModelInputDTO wekaModelInputDTO) {
+        System.out.println("   !!!  " + wekaModelInputDTO);
+        int n = 5;
+        int m = 7;
+        Matrix inputMatrix = MatrixFactory.createMatrix(n, m);
+        com.intapp.platform.factorial.service.factorial.Vector inputVector = MatrixFactory.createVector(n);
+        System.out.println(" inputVector : " + inputVector);
+        System.out.println(" inputMatrix : " + inputMatrix);
+
+        Matrix step = transposeMatrix(inputMatrix);
+        System.out.println("step 1 transposeMatrix: " + step);
+        step = multiplyMatrix(step,inputMatrix);
+        System.out.println("step 2 multiplyMatrix: " + step);
+        step = invert(step);
+        System.out.println("step 3 invert: " + step);
+        step = multiplyMatrix(step,transposeMatrix(inputMatrix));
+        System.out.println("step 4 : " + step);
+        com.intapp.platform.factorial.service.factorial.Vector resultVector = multiplyMatrixOnVector(step,inputVector);
+        System.out.println(" result : " + resultVector);
+
+        Double result = resultVector.getElement(0)*wekaModelInputDTO.getAmlRiskScore()
+                + resultVector.getElement(1)*wekaModelInputDTO.getEstimatedFeeScore()
+                +resultVector.getElement(2)*wekaModelInputDTO.getConflictRiskScore()
+                +resultVector.getElement(3)*wekaModelInputDTO.getFinanceRiskScore();
+
+        System.out.println("   result:   " + result);
+        return result;
     }
 
-    /**
-     * Update Factors dto.
-     *
-     * @param FactorsId      the Factors id
-     * @param FactorsDTOPost the Factors dto
-     * @return the Factors dto
-     */
-    public FactorsDTOGet update(String FactorsId, FactorsDTOPost FactorsDTOPost) {
-        return null;
-    }
-
-
-    /**
-     * Delete.
-     *
-     * @param FactorsId the Factors id
-     */
-    public void delete(String FactorsId) {
-    }
-
-    /**
-     * Delete all.
-     */
-    public void deleteAll() {
-        iFactors.deleteAll();
-    }
-
-    private static <T, U> List<U> convertList(List<T> from, Function<T, U> func) {
-        return from.stream().map(func).collect(Collectors.toList());
-    }
 }

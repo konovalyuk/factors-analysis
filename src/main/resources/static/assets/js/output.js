@@ -33,6 +33,22 @@ function gather_neural_data() {
 
     var neural_url = "http://127.0.0.1:5000/evaluate"
     var weka_url = "http://127.0.0.1:8080/api/weka/evaluate"
+    var factor_url = "http://127.0.0.1:8080/api/factors/evaluate"
+
+    $.ajax({
+        type: "POST",
+        url:  factor_url,
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        success: function(data) {
+            document.getElementById("outputResultLinear").innerHTML = data.result;
+            console.log(data.result);
+        },
+        error: function(result) {
+            console.log(result);
+            alert("Error: " + result)
+        }
+    });
 
     $.ajax({
         type: "POST",
