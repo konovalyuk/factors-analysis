@@ -32,17 +32,33 @@ function gather_neural_data() {
     }
 
     var neural_url = "http://127.0.0.1:5000/evaluate"
+    var weka_url = "http://127.0.0.1:8080/api/weka/evaluate"
 
     $.ajax({
         type: "POST",
-        url: neural_url,
+        url:  weka_url,
         contentType: "application/json",
         data: JSON.stringify(data),
         success: function(data) {
-            alert("Successful POST operation." + result)
+            document.getElementById("outputResultWeka").innerHTML = data.result;
+            console.log(data.result);
         },
         error: function(result) {
             alert("Error: " + result)
         }
-      });
+    });
+
+    $.ajax({
+        type: "POST",
+        url:  neural_url,
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        success: function(data) {
+            document.getElementById("outputResultNeural").innerHTML = data;
+            console.log(data.result);
+        },
+        error: function(result) {
+            alert("Error: " + result)
+        }
+    });
 }

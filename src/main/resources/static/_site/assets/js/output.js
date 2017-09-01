@@ -39,7 +39,8 @@ function gather_neural_data() {
         contentType: "application/json",
         data: JSON.stringify(data),
         success: function(data) {
-            alert("Successful POST operation." + result)
+           // alert("Successful POST operation." + data.result)
+            document.getElementById("outputResult").innerHTML = data;
         },
         error: function(result) {
             alert("Error: " + result)
