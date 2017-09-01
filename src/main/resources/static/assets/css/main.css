@@ -2326,6 +2326,7 @@
 	}
 
 	input[type="text"],
+	input[type="number"],
 	input[type="password"],
 	input[type="email"],
 	input[type="tel"],
@@ -2348,6 +2349,7 @@
 	}
 
 		input[type="text"]:invalid,
+		input[type="number"]:invalid,
 		input[type="password"]:invalid,
 		input[type="email"]:invalid,
 		input[type="tel"]:invalid,
@@ -2357,6 +2359,7 @@
 		}
 
 		input[type="text"]:focus,
+		input[type="number"]:focus,
 		input[type="password"]:focus,
 		input[type="email"]:focus,
 		input[type="tel"]:focus,
@@ -2405,6 +2408,7 @@
 	}
 
 	input[type="text"],
+	input[type="number"],
 	input[type="password"],
 	input[type="email"],
 	select {
@@ -3247,7 +3251,7 @@
 		}
 
 		.wrapper.style1 {
-			background-color: #5e42a6;
+			background-color: #40BAD2;
 		}
 
 		.wrapper.style1-alt {
@@ -3263,7 +3267,7 @@
 		}
 
 		.wrapper.style3 {
-			background-color: #5e42a6;
+			background-color: #40BAD2;
 		}
 
 		.wrapper.style3-alt {

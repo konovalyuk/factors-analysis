@@ -3,10 +3,9 @@
 	<head>
 		<title>HackaBooters</title>
 		<meta charset="utf-8" />
-		<meta id="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<meta id="viewport" content="width=device-width, initial-scale=1" />
+		<meta id="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous" />
 	</head>
 	<body>
 
@@ -17,7 +16,6 @@
 						<ul>
 							<h2><a href="#intro">Welcome</a></h2>
 							<h2><a href="#one">Intake form</a></h2>
-							<!-- <h2><a href="#two">Neural</a></h2>-->
 						</ul>
 					</nav>
 				</div>
@@ -29,14 +27,10 @@
 				<!-- Intro -->
 					<section id="intro" class="wrapper style1 fullscreen fade-up">
 						<div class="inner">
-							<h1>HackaThing</h1>
-							<p>Lets get started.</p>
+							<h1>HackaBooters</h1>
 							<ul class="actions">
 								<li><a href="#one" class="button scrolly">Start Learning</a></li>
 							</ul>
-							<!-- <ul class="actions">
-								<li><a href="#two" class="button scrolly">Start Neural</a></li>
-							</ul>-->
 						</div>
 					</section>
 
@@ -48,161 +42,81 @@
 							<section>
 							<span class="icon major fa-chain"></span>
 								<label>Type of Client</label>
-								<input [(ngModel)]="vector.clientType" type="text" id="clientType"/>
+								<input [(ngModel)]="vector.clientType" type="number" id="clientType" placeholder="enter number 1-2">
 							</section>
 							<section>
 							<span class="icon major fa-chain"></span>
 								<label>Estimated fees</label>
-								<input [(ngModel)]="vector.estimatedFeeScore" type="text" id="estimatedFeeScore">
+								<input [(ngModel)]="vector.estimatedFeeScore" type="number" id="estimatedFeeScore" placeholder="enter number 1-3">
 							</section>
 							<section>
 							<span class="icon major fa-chain"></span>
 								<label>AML Risk scoring</label>
-								<input [(ngModel)]="vector.amlRiskScore" type="text" id="amlRiskScore">
+								<input [(ngModel)]="vector.amlRiskScore" type="number" id="amlRiskScore" placeholder="enter number 1-3">
 							</section>
 							<section>
 							<span class="icon major fa-chain"></span>
 								<label>Finance Risk Scoring</label>
-								<input [(ngModel)]="vector.financeRiskScore" type="text" id="financeRiskScore">
+								<input [(ngModel)]="vector.financeRiskScore" type="number" id="financeRiskScore" placeholder="enter number 1-3">
 							</section>
 							<section>
 							<span class="icon major fa-chain"></span>
 								<label>Conflicts</label>
-								<input [(ngModel)]="vector.conflictRiskScore" type="text" id="conflictRiskScore">
+								<input [(ngModel)]="vector.conflictRiskScore" type="number" id="conflictRiskScore" placeholder="enter number 1-3">
 							</section>
 							<section>
 							<span class="icon major fa-chain"></span>
 								<label>Is contingent?</label>
-								<input [(ngModel)]="vector.isContingent" type="text" id="isContingent">
+								<input [(ngModel)]="vector.isContingent" type="number" id="isContingent" placeholder="enter number 0-1">
 							</section>
 							<section>
 							<span class="icon major fa-chain"></span>
 								<label>Is High Risk Country?</label>
-								<input [(ngModel)]="vector.isHighRiskCountry" type="text" id="isHighRiskCountry">
+								<input [(ngModel)]="vector.isHighRiskCountry" type="number" id="isHighRiskCountry" placeholder="enter number 0-1">
 							</section>
 							<section>
 							<span class="icon major fa-chain"></span>
 								<label>Bribery Concerns?</label>
-								<input [(ngModel)]="vector.isBribery" type="text" id="isBribery">
+								<input [(ngModel)]="vector.isBribery" type="number" id="isBribery" placeholder="enter number 0-1">
 							</section>
 							<section>
 								<span class="icon major fa-chain"></span>
 								<label>Involved to military activities?</label>
-								<input [(ngModel)]="vector.isMilitaryActivities" type="text" id="isMilitaryActivities">
+								<input [(ngModel)]="vector.isMilitaryActivities" type="number" id="isMilitaryActivities" placeholder="enter number 0-1">
 							</section>
 							<section>
 								<span class="icon major fa-chain"></span>
 								<label>Involved to government procurement or grant?</label>
-								<input [(ngModel)]="vector.isGrant" type="text" id="isGrant">
+								<input [(ngModel)]="vector.isGrant" type="number" id="isGrant" placeholder="enter number 0-1">
 							</section>
 							<section>
 								<span class="icon major fa-chain"></span>
 								<label>Involved competitive decision making or proposal preparation services?</label>
-								<input [(ngModel)]="vector.isCompeteticeDecisionGovernmentProcurement"  type="text" id="isCompeteticeDecision">
+								<input [(ngModel)]="vector.isCompeteticeDecisionGovernmentProcurement"  type="number" id="isCompeteticeDecision" placeholder="enter number 0-1">
 							</section>
 							<section>
 								<span class="icon major fa-chain"></span>
 								<label>Involved Federal, state, or local lobbying activities?</label>
-								<input [(ngModel)]="vector.isFederal" type="text" id="isFederal">
+								<input [(ngModel)]="vector.isFederal" type="number" id="isFederal" placeholder="enter number 0-1">
 							</section>
 							<section>
 								<span class="icon major fa-chain"></span>
 								<label>Fee arrangement contingent?</label>
-								<input [(ngModel)]="vector.isFeeArrangementContingent" type="text" id="isFeeArrangementContingent">
+								<input [(ngModel)]="vector.isFeeArrangementContingent" type="number" id="isFeeArrangementContingent" placeholder="enter number 0-1">
 							</section>
 							<section>
-                                <button class="button" name="Calc" onclick="gather_neural_data()">
-                                    Calculate
-                                </button>
+								<h3>
+                                	<button class="button" name="Calc" onclick="gather_neural_data()">
+                                    	Calculate
+                                	</button>
+                                </h3>
                             </section>
 							</div>
 							<ul class="actions">
-								<li><a href="#intro" class="button scrolly">Go up</a></li>
+								<h3><a href="#intro" class="button scrolly">Go up</a></h3>
 							</ul>
 						</div>
 					</section>
-
-				<!-- Two 
-					<section id="two" class="wrapper style3 fade-up">
-						<div class="inner">
-							<h2>Provide Client data</h2>
-							<div class="features">
-								<section>
-									<span class="icon major fa-chain"></span>
-									<h3>Type of Client</h3>
-									<input type="text" id="NeuralParameter1">
-								</section>
-								<section>
-									<span class="icon major fa-chain"></span>
-									<h3>Estimated fees</h3>
-									<input type="text" id="NeuralParameter2">
-								</section>
-								<section>
-									<span class="icon major fa-chain"></span>
-									<h3>AML Risk scoring</h3>
-									<input type="text" id="NeuralParameter3">
-								</section>
-								<section>
-									<span class="icon major fa-chain"></span>
-									<h3>Finance Risk Scoring</h3>
-									<input type="text" id="NeuralParameter4">
-								</section>
-								<section>
-									<span class="icon major fa-chain"></span>
-									<h3>Conflicts</h3>
-									<input type="text" id="NeuralParameter5">
-								</section>
-								<section>
-									<span class="icon major fa-chain"></span>
-									<h3>Is contingent?</h3>
-									<input type="text" id="NeuralParameter6">
-								</section>
-								<section>
-									<span class="icon major fa-chain"></span>
-									<h3>Is High Risk Country?</h3>
-									<input type="text" id="NeuralParameter7">
-								</section>
-								<section>
-									<span class="icon major fa-chain"></span>
-									<h3>Bribery Conserns?</h3>
-									<input type="text" id="NeuralParameter8">
-								</section>
-								<section>
-									<span class="icon major fa-chain"></span>
-									<h3>Involved to military activities?</h3>
-									<input type="text" id="NeuralParameter9">
-								</section>
-								<section>
-									<span class="icon major fa-chain"></span>
-									<h3>Involved to government procurement or grant?</h3>
-									<input type="text" id="NeuralParameter10">
-								</section>
-								<section>
-									<span class="icon major fa-chain"></span>
-									<h3>Involved competitive decision making or proposal preparation services?</h3>
-									<input type="text" id="NeuralParameter11">
-								</section>
-								<section>
-									<span class="icon major fa-chain"></span>
-									<h3>Involved Federal, state, or local lobbying activities?</h3>
-									<input type="text" id="NeuralParameter12">
-								</section>
-								<section>
-									<span class="icon major fa-chain"></span>
-									<h3>Fee arrangement contingent?</h3>
-									<input type="text" id="NeuralParameter13">
-								</section>
-							</div>
-							<section class="wrapper style3 fade-up">
-								<div class="inner">
-									<h2>Result Score: </h2>
-								</div>
-							</section>
-							<ul class="actions">
-								<li><a href="#intro" class="button scrolly">Go up</a></li>
-							</ul>
-						</div>
-					</section>-->
 			</div>
 
 			<script src="assets/js/jquery.min.js"></script>
