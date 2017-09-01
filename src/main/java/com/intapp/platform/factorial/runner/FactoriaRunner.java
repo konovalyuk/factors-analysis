@@ -1,8 +1,11 @@
-package com.intapp.runner;
+package com.intapp.platform.factorial.runner;
 
-import com.intapp.service.factorial.*;
-import static com.intapp.service.factorial.MatrixLogic.*;
-import static com.intapp.service.factorial.MatrixLogic.multiplyMatrix;
+import com.intapp.platform.factorial.service.factorial.Matrix;
+import com.intapp.platform.factorial.service.factorial.MatrixFactory;
+import com.intapp.platform.factorial.service.factorial.Vector;
+
+import static com.intapp.platform.factorial.service.factorial.MatrixLogic.*;
+
 
 /**
  * Created by Maxim_Konovaliuk on 8/31/2017.

@@ -1,4 +1,4 @@
-package com.intapp.service.factorial;
+package com.intapp.platform.factorial.service.factorial;
 
 import lombok.*;
 

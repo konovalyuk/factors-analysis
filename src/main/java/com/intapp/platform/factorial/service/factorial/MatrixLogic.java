@@ -1,4 +1,4 @@
-package com.intapp.service.factorial;
+package com.intapp.platform.factorial.service.factorial;
 
 import java.util.Arrays;
 import java.util.stream.IntStream;

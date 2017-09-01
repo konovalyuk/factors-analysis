@@ -1,4 +1,4 @@
-package com.intapp.service.factorial;
+package com.intapp.platform.factorial.service.factorial;
 
 /**
  * Created by Maxim_Konovaliuk on 8/31/2017.
